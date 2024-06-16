@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MQTT Chat</title>
+</head>
+<body>
+    <div>
+        <label for="server">Server:</label>
+        <input type="text" id="server" />
+        <label for="port">Port:</label>
+        <input type="text" id="port" />
+        <label for="username">Username:</label>
+        <input type="text" id="username" />
+        <label for="password">Password:</label>
+        <input type="password" id="password" />
+        <button onclick="connect()">Connect</button>
+    </div>
+    <div>
+        <label for="subscribe-topic">Subscribe Topic:</label>
+        <input type="text" id="subscribe-topic" />
+        <button onclick="subscribe()">Subscribe</button>
+    </div>
+    <div>
+        <label for="message">Message:</label>
+        <input type="text" id="message" />
+        <button onclick="publish()">Publish</button>
+    </div>
+    <div>
+        <h3>Messages:</h3>
+        <ul id="messages"></ul>
+    </div>
+    <div>
+        <h3>Users:</h3>
+        <ul id="users"></ul>
+    </div>
+
+    <script src="***/paho-mqtt@1.1.0/paho-mqtt.js"></script>
+    <script>
+        const server = document.getElementById('server');
+        const port = document.getElementById('port');
+        const username = document.getElementById('username');
+        const password = document.getElementById('password');
+        const subscribeTopic = document.getElementById('subscribe-topic');
+        const message = document.getElementById('message');
+        const messages = document.getElementById('messages');
+        const users = document.getElementById('users');
+
+        let client;
+
+        function connect() {
+            const url = `ws://${server.value}:${port.value}`;
+            client = new Paho.MQTT.Client(url, username.value, password.value);
+            client.onConnectionLost = onConnectionLost;
+            client.onMessageArrived = onMessageArrived;
+
+            client.connect({ onSuccess: onConnect });
+        }
+
+        function onConnect() {
+            console.log('connected');
+            client.subscribe(subscribeTopic.value);
+        }
+
+        function onConnectionLost(responseObject) {
+            console.log('connection lost: ' + responseObject.errorMessage);
+        }
+
+        function onMessageArrived(message) {
+            messages.innerHTML += `<li>${message.payloadString}</li>`;
+        }
+
+        function subscribe() {
+            client.subscribe(subscribeTopic.value);
+        }
+
+        function publish() {
+            const messageTopic = subscribeTopic.value;
+            const messageContent = message.value;
+            client.publish(messageTopic, messageContent);
+            message.value = '';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>登录和注册</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 300px;
+            padding: 20px;
+            margin: auto;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>登录</h2>
+    <form id="loginForm">
+        <input type="text" id="loginUsername" name="username" placeholder="用户名" required>
+        <input type="password" id="loginPassword" name="password" placeholder="密码" required>
+        <button type="submit">登录</button>
+    </form>
+    <h2>注册</h2>
+    <form id="registerForm">
+        <input type="text" id="registerUsername" name="username" placeholder="用户名" required>
+        <input type="password" id="registerPassword" name="password" placeholder="密码" required>
+        <input type="password" id="registerConfirmPassword" name="confirmPassword" placeholder="确认密码" required>
+        <button type="submit">注册</button>
+    </form>
+</div>
+
+<!--    <script>-->
+<!--        document.getElementById('loginForm').onsubmit = function(event) {-->
+<!--            event.preventDefault();-->
+<!--            // 这里添加 AJAX 请求逻辑用以登录-->
+<!--        };-->
+<!--        document.getElementById('registerEorm').onsubmit = function(event) {-->
+<!--            event.preventDefault();-->
+<!--            // 这里添加 AJAX 请求逻辑用以注册-->
+<!--        };-->
+<!--    </script>-->
+<script>
+    function sendRequest(url, data, method) {
+        var xhr = new XMLHttpRequest();
+        xhr.open(method, url, true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                alert('Response: ' + xhr.responseText);
+            }
+        };
+        xhr.send(data);
+    }
+
+    document.getElementById('loginForm').onsubmit = function (event) {
+        event.preventDefault();
+        var username = document.getElementById('loginUsername').value;
+        var password = document.getElementById('loginPassword').value;
+        var data = 'username=' + encodeURIComponent(username) + '&password=' + encodeURIComponent(password);
+        sendRequest('/login', data, 'POST');
+    };
+
+    document.getElementById('registerForm').onsubmit = function (event) {
+        event.preventDefault();
+        var username = document.getElementById('registerUsername').value;
+        var password = document.getElementById('registerPassword').value;
+        var confirmPassword = document => getElementById('registerConfirmPassword').value;
+        if (password !== confirmPassword) {
+            alert('密码和确认密码不一致！');
+            return;
+        }
+        var data = 'username=' + encodeURIComponent(username) + '&password=' + encodeURIComponent(password);
+        sendRequest('/register', data, 'POST');
+    };
+</script>
+
+</body>
+</html>

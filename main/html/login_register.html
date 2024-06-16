@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login and Register</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+<h2>Login</h2>
+<div>
+    <label>Username:</label>
+    <input type="text" id="login_username">
+    <label>Password:</label>
+    <input type="password" id="login_password">
+    <button onclick="login()">Login</button>
+</div>
+
+<h2>Register</h2>
+<div>
+    <label>Username:</label>
+    <input type="text" id="register_username">
+    <label>Password:</table>:</label>
+    <input type="password" id="register_password">
+    <button onclick="register()">Register</button>
+</div>
+
+<script>
+    function login() {
+        $.ajax({
+            url: 'http://101.43.101.59:1883/login',
+            method: 'POST',
+            data: JSON.stringify({
+                username: $('#login_username').val(),
+                password: $('#login_password').val()
+            }),
+            contentType: "application/json",
+            success: function (response) {
+                alert('Login successful: ' + response);
+            },
+            error: function (response) {
+                alert('Login failed: ' + response.responseText);
+            }
+        });
+    }
+
+    function register() {
+        $.ajax({
+            url: 'http://101.43.101.59:1883/register',
+            method: 'POST',
+            data: JSON.stringify({
+                username: $('#register_username').val(),
+                password: $('#register_password').val()
+            }),
+            contentType: "application/json",
+            success: function (response) {
+                alert('Registration successful: ' + response);
+            },
+            error: function (response) {
+                alert('Registration failed: ' + response.responseText);
+            }
+        });
+    }
+</script>
+</body>
+</html>
