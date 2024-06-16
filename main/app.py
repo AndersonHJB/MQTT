@@ -16,7 +16,7 @@ def login():
         password = request.form['password']
         login_client = Login(username, password)
         # 这里假设登录状态由 MQTT 消息处理，可能需要一些回调机制来处理响应
-        return redirect(url_by('profile'))
+        return redirect(url_for('profile'))
     return render_template('login.html')
 
 
