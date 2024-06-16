@@ -13,3 +13,6 @@
 
 > 价格说明，价格会随着购买人数增加而增加。当购买人数超过 10人，则会涨价。涨价是我唯一的促销方式。
 
+## 讲课计划
+
+- V0.1: [https://github.com/AndersonHJB/MQTT/tree/f82a920cf290e09b44f7e08ba688b912c7e0e3b9](https://github.com/AndersonHJB/MQTT/tree/f82a920cf290e09b44f7e08ba688b912c7e0e3b9)
